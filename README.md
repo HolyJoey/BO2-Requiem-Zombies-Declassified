@@ -72,20 +72,9 @@ Nothing outside `t6game/mods/dlc5/`, `t6game/usermaps/` (the 9 DLC5 maps) and `t
 - **`zone/all/dlczm0_load_zm.ff`**: a stock DLC load zone (all stock assets identical) with the 11 DLC5 loading screens added. It stays loaded while a map starts, unlike the mod's own zones.
 - **Removed:** `mods/dlc5/mods.iwd`. Requiem never loads the scripts inside it, but any `.iwd` in a mod folder switches off Requiem's fast image lookup, so every map loaded about 20 seconds slower.
 
-## Files in this repo
+## Going back
 
-Everything of the fixed DLC5 that isn't stock game data. The sound banks (`*.sabl`, `*.sabs`) and the 9 maps (`usermaps/`) are only in the [download](https://drive.proton.me/urls/2WMDZGE3H8#HQTMMKQn2KUH): they are far over GitHub's 100 MB file limit.
-
-| Path | What |
-|---|---|
-| `t6game/mods/dlc5/` | `mod.ff`, `mod_load.ff/.ipak`, `mod_patch.ff/.ipak`, `mod.json` and the 3 patched Lua files (every change is marked with `[local fix]`) |
-| `t6game/zone/all/dlczm0_load_zm.ff` | Stock load zone + the 11 DLC5 loading screens |
-| `source/` | The 47 DLC5 scripts as source, for reference (they are compiled into `mod.ff`; don't install them loose) |
-| `build/` | OpenAssetTools zone files and added materials/localize/tables for the 4 rebuilt zones. See [BUILD.md](BUILD.md). |
-| `tools/dxt5to1.py` | Lossless DXT5 → DXT1 for opaque IWI/DDS images |
-| `tools/make_blur.py` | Rebuilds a blurred map background from the sharp map art |
-
-**Going back:** restore your backup of `zone/all/dlczm0_load_zm.ff` and delete `t6game/mods/dlc5/`.
+Restore your backup of `zone/all/dlczm0_load_zm.ff` and delete `t6game/mods/dlc5/`.
 
 ## Credits
 
@@ -98,4 +87,4 @@ Everything of the fixed DLC5 that isn't stock game data. The sound banks (`*.sab
 
 ## License
 
-The scripts and tools in this repo are based on Zombies Declassified and are released under the **GNU GPL v3**, the same as the original (see `LICENSE`).
+The scripts in this mod are based on Zombies Declassified and are released under the **GNU GPL v3**, the same as the original (see `LICENSE`).
