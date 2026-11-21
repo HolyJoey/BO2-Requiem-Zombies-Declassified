@@ -1124,10 +1124,10 @@ end
 CoD.ScoreboardRow:registerEventHandler("gain_focus", CoD.ScoreboardRow.gainFocus)
 CoD.ScoreboardRow:registerEventHandler("lose_focus", CoD.ScoreboardRow.loseFocus)
 CoD.ScoreboardRow:registerEventHandler("focus_client", CoD.ScoreboardRow.focusClient)
--- [local fix] Loading screens of the dlc5 maps showed a checkerboard until late in the load:
--- the material is in mod_load.ff, but its pixels come from an ipak Requiem opens later. This file is loaded by
--- ui_mp/t6/hud.lua BEFORE T6.HUD.Loading, in the same Lua state, so asking for a material name that does not
--- exist here makes Requiem build it right away from mods/dlc5/images/<name>.iwi.
+-- [local fix] Loading screens of the dlc5 maps: the stock loading-screen names are redirected to our
+-- loadscreen_dlc5_* materials. They live in zone/all/dlczm0_load_zm.ff (a stock DLC load zone that stays loaded
+-- all session, images embedded), because mod_load.ff is unloaded while a map starts; so the picture is there
+-- from the first frame. This file is loaded by ui_mp/t6/hud.lua BEFORE T6.HUD.Loading, so the hook is in time.
 pcall( function()
 	if RegisterMaterial == nil or DLC5_LOADSCREEN_HOOKED == true then
 		return

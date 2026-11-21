@@ -1428,9 +1428,9 @@ pcall( function()
 end )
 
 -- [local fix] Moon (No Man's Land), Kino (stage) and the 2.0.5 map art for Moon, Kino, Five, Ascension and Shangri-La. Both live in mod_patch.ff, which Requiem does not load in the
--- menu. (1) The menu's table lookups get the mod_patch rows for moon / nomansland; (2) the Moon map-screen art is asked
--- for under names that do not exist, so Requiem builds it right away from t6game/images/<name>.iwi; (3) DLC5_NEWART
--- turns on dlc5's full-screen start-loc layout for Moon only.
+-- menu. (1) The menu's table lookups get the mod_patch rows for moon / nomansland; (2) the map-screen art is asked
+-- for under our own menu_dlc5_* names: real materials in mod_load.ff, pixels in mod_load.ipak, so it works on Switch
+-- and Android; (3) DLC5_NEWART turns on dlc5's full-screen start-loc layout for these five maps.
 pcall( function()
 	if DLC5_MOON_HOOKED == true or UIExpression == nil or UIExpression.TableLookup == nil then
 		return
@@ -1517,5 +1517,89 @@ pcall( function()
 			end
 			return dlc5_origRegisterMaterialMoon( dlc5_name, ... )
 		end
+	end
+end )
+
+-- [local fix] (2026-11-21, Android) Main menu stuck after leaving a lobby: Requiem's glide back to the main menu
+-- (mm_return) turns input back on only when that animation finishes; when it is interrupted, the menu stays locked
+-- (screen alive, buttons and taps ignored). Safety net: while the main menu is open, if its input (or the globe's
+-- current menu's) stays disabled for 2 s with no globe animation running and nothing on top, turn input back on.
+pcall( function()
+	if LUI == nil or LUI.createMenu == nil or DLC5_MAINMENU_WATCH == true then
+		return
+	end
+	DLC5_MAINMENU_WATCH = true
+	local dlc5_lockedMenus = function( dlc5_self )
+		local dlc5_list = {}
+		local dlc5_globe = nil
+		if CoD ~= nil and CoD.GameGlobeZombie ~= nil then
+			dlc5_globe = CoD.GameGlobeZombie.gameGlobe
+		end
+		if dlc5_globe ~= nil and dlc5_globe.isAnimating == true then
+			return dlc5_list
+		end
+		if dlc5_self.m_inputDisabled == true and dlc5_self.occludedBy == nil then
+			table.insert( dlc5_list, dlc5_self )
+		end
+		if dlc5_globe ~= nil then
+			local dlc5_cur = dlc5_globe.currentMenu
+			if dlc5_cur ~= nil and dlc5_cur ~= dlc5_self and dlc5_cur.m_inputDisabled == true and dlc5_cur.occludedBy == nil then
+				table.insert( dlc5_list, dlc5_cur )
+			end
+		end
+		return dlc5_list
+	end
+	local dlc5_watch = function( dlc5_self, dlc5_event )
+		local dlc5_list = dlc5_lockedMenus( dlc5_self )
+		if #dlc5_list == 0 then
+			dlc5_self.dlc5LockedTicks = 0
+			return
+		end
+		dlc5_self.dlc5LockedTicks = ( dlc5_self.dlc5LockedTicks or 0 ) + 1
+		if dlc5_self.dlc5LockedTicks < 4 then
+			return
+		end
+		dlc5_self.dlc5LockedTicks = 0
+		for dlc5_i = 1, #dlc5_list do
+			dlc5_list[dlc5_i].m_inputDisabled = false
+		end
+	end
+	local dlc5_wrapMain = function( dlc5_orig )
+		return function( dlc5_controller, dlc5_userData )
+			local dlc5_menu = dlc5_orig( dlc5_controller, dlc5_userData )
+			if dlc5_menu ~= nil then
+				pcall( function()
+					dlc5_menu:registerEventHandler( "dlc5_input_watch", dlc5_watch )
+					dlc5_menu:addElement( LUI.UITimer.new( 500, "dlc5_input_watch", false, dlc5_menu ) )
+				end )
+			end
+			return dlc5_menu
+		end
+	end
+	local dlc5_main = rawget( LUI.createMenu, "MainMenu" )
+	if type( dlc5_main ) == "function" then
+		rawset( LUI.createMenu, "MainMenu", dlc5_wrapMain( dlc5_main ) )
+		return
+	end
+	-- Requiem's MainMenu.lua loads this file before it defines LUI.createMenu.MainMenu: wrap it when it is assigned
+	-- (chained in front of whatever __newindex is already there, e.g. dlc5's own start-location hook above).
+	local dlc5_mt = getmetatable( LUI.createMenu )
+	if dlc5_mt == nil then
+		dlc5_mt = {}
+		setmetatable( LUI.createMenu, dlc5_mt )
+	end
+	local dlc5_prevNewIndex = dlc5_mt.__newindex
+	dlc5_mt.__newindex = function( dlc5_t, dlc5_k, dlc5_v )
+		if dlc5_k == "MainMenu" and type( dlc5_v ) == "function" then
+			dlc5_v = dlc5_wrapMain( dlc5_v )
+		end
+		if type( dlc5_prevNewIndex ) == "function" then
+			return dlc5_prevNewIndex( dlc5_t, dlc5_k, dlc5_v )
+		end
+		if type( dlc5_prevNewIndex ) == "table" then
+			dlc5_prevNewIndex[dlc5_k] = dlc5_v
+			return
+		end
+		rawset( dlc5_t, dlc5_k, dlc5_v )
 	end
 end )
