@@ -87,4 +87,12 @@ Restore your backup of `zone/all/dlczm0_load_zm.ff` and delete `t6game/mods/dlc5
 
 ## License
 
-The scripts in this mod are based on Zombies Declassified and are released under the **GNU GPL v3**, the same as the original (see `LICENSE`).
+| Part | By | License |
+|---|---|---|
+| Zombies Declassified 2.0.5 (scripts, menus, mod content) | Logo2K | GNU GPL v3 ([`LICENSE`](LICENSE), copied unchanged from [Logo2K's repo](https://github.com/Logo-2K/zombies-declassified)) |
+| BETA 2 patches | Fr0sty | MIT ([`licenses/Fr0sty-patches-MIT.txt`](licenses/Fr0sty-patches-MIT.txt)) |
+| The Requiem fixes in this repo and its releases (the changed `.lua` files, rebuilt zones, precompiled scripts) | HolyJoey | GNU GPL v3, the same as Zombies Declassified. Copyright © 2026 HolyJoey. |
+
+The `LICENSE` file is the GPL v3 text that Logo2K's project uses. The fixes in this repo change his work, and the GPL v3 requires a changed version to stay under the GPL v3, so they use that same license. You may share and change them, as long as you keep them under the GPL v3 and credit Logo2K, Fr0sty and HolyJoey. See [`NOTICE`](NOTICE) for who owns what.
+
+Call of Duty: Black Ops II and its game assets belong to Treyarch / Activision and are not covered by any of these licenses.

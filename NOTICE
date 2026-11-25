@@ -1,0 +1,26 @@
+Zombies Declassified for BO2 Requiem (Switch and Android)
+https://github.com/HolyJoey/BO2-Requiem-Zombies-Declassified
+
+This is a modified version of Zombies Declassified 2.0.5.
+
+Zombies Declassified
+  Copyright (c) Logo2K and the Zombies Declassified contributors
+  https://github.com/Logo-2K/zombies-declassified
+  Licensed under the GNU General Public License v3 (see LICENSE).
+
+Zombies Declassified BETA 2 patches
+  Copyright (c) Fr0sty
+  https://github.com/Fr0styProductions/Zombies-Declassified-Patches
+  Licensed under the MIT License (see licenses/Fr0sty-patches-MIT.txt).
+
+Requiem fixes (changed .lua files, rebuilt zones, precompiled scripts)
+  Copyright (c) 2026 HolyJoey
+  Licensed under the GNU General Public License v3, the same as
+  Zombies Declassified (see LICENSE).
+
+The source of the scripts precompiled into mods/dlc5/mod.ff is the unchanged
+Zombies Declassified 2.0.5 source at the Logo2K link above.
+
+Call of Duty: Black Ops II and its game assets belong to Treyarch / Activision.
+They are not covered by these licenses. Fan project, not affiliated with or
+endorsed by Activision.
