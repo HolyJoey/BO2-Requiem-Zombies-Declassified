@@ -3,13 +3,13 @@
 **Zombies Declassified 2.0.5** (the DLC5 port by **Logo2K**, with **Fr0sty**'s BETA 2 patches), fixed so it runs properly on Black Ops II through **Requiem**: **Requiem NX** on the Nintendo Switch and **T6Requiem** on Android.
 All credit for Zombies Declassified goes to Logo2K, Fr0sty and everyone in their credits. This version adds the fixes needed to make it work on Requiem.
 
-Tested on Requiem NX 0.3.2 (Switch) and T6Requiem (Android).
-
 ## Download
 
-**[Full DLC5 (`DLC5_v2_Full.zip`)](https://drive.proton.me/urls/2WMDZGE3H8#HQTMMKQn2KUH)**: the complete mod with all fixes included, for Switch and Android.
+**[Full DLC5 v2.0.1 (`DLC5_v2.0.1_Full.zip`)](https://drive.proton.me/urls/2WMDZGE3H8#HQTMMKQn2KUH)**: the complete mod with all fixes included, for Switch and Android.
 
-**Have the Discord version (`Requiem_DLC5.zip`, Nov 11)?** The small `DLC5_v2_Update.zip` (56 MB) in [Releases](../../releases) is enough; see the release notes for the steps.
+**Have v2 (Nov 21)?** Only replace `t6game/mods/dlc5/ui/t6/mainlobby.lua` with the one from the [v2.0.1 release](../../releases/tag/v2.0.1).
+
+**Have the Discord version (`Requiem_DLC5.zip`, Nov 11)?** Get the small `DLC5_v2_Update.zip` (56 MB) from the [v2 release](../../releases/tag/v2) first (see its notes for the steps), then replace `mainlobby.lua` as above.
 
 ## Install
 
@@ -49,6 +49,7 @@ Nothing outside `t6game/mods/dlc5/`, `t6game/usermaps/` (the 9 DLC5 maps) and `t
 | Game closes when you open **Kino**'s map screen (UI Error 80076) | Extra start locations are only added when the menu has a position for them. |
 | Game closes when you **open the scoreboard, die or end the game** | `Engine.GetCustomTeamName()` returns `nil` on Requiem; added a `nil` check. |
 | **Main menu stuck** (no buttons work) after backing out of a lobby | A safety net turns input back on when the menu is left locked. |
+| Map picture **stuck behind the globe** (rocks gone) after backing out of a start-location screen by touch | A touch event no longer interrupts the zoom-out animation. |
 | **Checkerboard** on the DLC5 loading screens | The loading screens live in a load zone that stays loaded all session, so the artwork shows from the first frame. |
 | **Raw map name** on the loading screen (`zm_cosmodrome`) | Replaced with DLC5's own names ("ASCENSION GROUP FACILITY"). |
 | **Raw lobby options** (`MENU_MINPLAYERS_CAPS` …) | Now MIN PLAYERS, CHEATS and PERMA PERKS. |
@@ -63,13 +64,14 @@ Nothing outside `t6game/mods/dlc5/`, `t6game/usermaps/` (the 9 DLC5 maps) and `t
 
 ### Changes compared to Logo2K's and Fr0sty's 2.0.5
 
-- **`mods/dlc5/ui/t6/mainlobby.lua`**: no crash on missing start spots, the Moon/Kino start rows the menu was missing, the new map art, and the stuck-menu fix.
+- **`mods/dlc5/ui/t6/mainlobby.lua`**: no crash on missing start spots, the Moon/Kino start rows the menu was missing, the new map art, the stuck-menu fix and the globe fix (v2.0.1).
 - **`mods/dlc5/ui_mp/t6/hud/scoreboard.lua`**: the `nil` team-name crash; loading screens and map names.
 - **`mods/dlc5/ui_mp/t6/menus/privategamelobby_project.lua`**: readable lobby option names.
 - **`mods/dlc5/mod.ff`**: the 47 loose scripts (`maps/`, `scripts/`, `clientscripts/`) compiled with gsc-tool and stored inside; the script code is unchanged. Requiem no longer compiles them on the first load.
 - **`mods/dlc5/mod_load.ff` + `.ipak`**: the new map-screen art and its materials built in, opaque images stored as DXT1 (same pixels, half the size), and new smooth blurred backgrounds. The game shows only the centre quarter of those, zoomed ~2.5×, so the old ones looked blocky.
 - **`mods/dlc5/mod_patch.ff` + `.ipak`**: same assets, opaque images stored as DXT1 (19 → 13 MB).
 - **`zone/all/dlczm0_load_zm.ff`**: a stock DLC load zone (all stock assets identical) with the 11 DLC5 loading screens added. It stays loaded while a map starts, unlike the mod's own zones.
+- **`mods/dlc5/LICENSE`, `NOTICE`, `licenses/`** (full zip, since v2.0.1): the license texts and who owns what.
 - **Removed:** `mods/dlc5/mods.iwd`. Requiem never loads the scripts inside it, but any `.iwd` in a mod folder switches off Requiem's fast image lookup, so every map loaded about 20 seconds slower.
 
 ## Going back
